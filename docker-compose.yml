@@ -3,7 +3,7 @@ services:
     build: ./backend
     container_name: backend
     ports:
-      - "8081:8081"
+      - "8090:8090"
 
   frontend:
     build: ./frontend
