@@ -9,12 +9,6 @@ pipeline {
                 git 'https://github.com/abjeet16/dockerCompose.git'
             }
         }
-        stage('Remove Old Containers') {
-            steps {
-                sh 'docker compose down || true'
-                sh 'docker rm -f backend frontend || true'
-            }
-        }
         stage('Build Backend') {
             steps {
                 dir('backend') {
@@ -34,6 +28,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
+                sh 'docker compose down || true'
                 sh 'docker compose up -d'
             }
         }
