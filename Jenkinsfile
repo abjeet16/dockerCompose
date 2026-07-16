@@ -1,14 +1,18 @@
 pipeline {
     agent any
-
     triggers {
         cron('H/15 * * * *')
     }
-
     stages {
         stage('Checkout') {
             steps {
                 git 'https://github.com/abjeet16/dockerCompose.git'
+            }
+        }
+        stage('Remove Old Containers') {
+            steps {
+                sh 'docker compose down || true'
+                sh 'docker rm -f backend frontend || true'
             }
         }
         stage('Build Backend') {
@@ -30,7 +34,6 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'docker compose down || true'
                 sh 'docker compose up -d'
             }
         }
